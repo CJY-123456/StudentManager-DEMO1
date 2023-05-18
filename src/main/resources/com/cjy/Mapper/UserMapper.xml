@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cjy.Mapper.UserMapper">
+
+    <select id="selectBy_id" resultType="com.cjy.pojo.User">
+        select id,name,hours,schools from c_course where id=#{id} ;
+    </select>
+
+    <select id="selectBy_school_name" resultType="com.cjy.pojo.User">
+        select id,name,hours ,schools from c_course where schools =(select id from s_school where s_school.school_name=#{school_name});
+    </select>
+
+    <select id="selectAll" resultType="com.cjy.pojo.User">
+        select id,name,hours,schools from c_course;
+    </select>
+
+    <update id="update_hours" >
+    update c_course
+        <set>
+            <if test="hours!=null">
+              hours=#{hours},
+            </if>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="schools!=null">
+                schools=#{schools}
+            </if>
+        </set>
+        where id=#{id};
+    </update>
+
+    <insert id="add">
+      insert into c_course (id, name, hours, schools)
+      values (#{id},#{name},#{hours},#{schools});
+    </insert>
+
+</mapper>
